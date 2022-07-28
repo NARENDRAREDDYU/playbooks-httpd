@@ -1,0 +1,46 @@
+---
+- name: Update all server
+  hosts: all
+  tasks:
+  - name: create a aws_dir directory
+    file:
+      path: /home/centos/aws_dir
+      state: directory
+    when: ansible_distribution == "CentOS" 
+
+  - name: create a aws_dir directory
+    file:
+      path: /home/ubuntu/aws_dir
+      state: directory
+    when: ansible_distribution == "Ubuntu"
+
+
+  - name: create a aws_dir directory
+    file:
+      path: /home/ec2-user/aws_dir
+      state: directory
+    when: ansible_distribution == "Amazon"
+
+
+  - name: download a file
+    get_url:
+      url: https://filesamples.com/samples/document/txt/sample2.txt
+      dest: /home/centos/aws_dir
+    when: ansible_distribution == "CentOS"  
+
+  - name: create a my_dir directory
+    get_url:
+      url: https://filesamples.com/samples/document/txt/sample2.txt
+      dest: /home/ubuntu/aws_dir
+    when: ansible_distribution == "Ubuntu"
+
+  - name: create a aws_dir directory
+    file:
+      path: /home/ec2-user/aws_dir
+      state: directory
+    when: ansible_distribution == "Amazon"
+
+
+
+
+...

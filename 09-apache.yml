@@ -1,0 +1,53 @@
+---
+- name: Update all server
+  hosts: all
+  become: yes
+  vars:
+    apache2_port: 80
+    httpd_port: 80
+  tasks:
+  
+  - name: update the webpage
+    template:
+      src: httpd.j2
+      dest: /etc/httpd/conf/httpd.conf
+    notify:
+    -  restart httpd
+    when: ansible_distribution == "CentOS" or ansible_distribution == "Amazon" 
+   
+  - name: update the webpage
+    template:
+      src: ports.j2
+      dest: /etc/apache2/ports.conf
+    notify:
+    -  restart apache2
+    when: ansible_distribution ==  "Ubuntu"
+  
+  - name: install php
+    yum:
+      name: php
+      state: present
+    when: ansible_distribution == "CentOS" or ansible_distribution == "Amazon"
+
+  - name: install php
+    apt:
+      name: php
+      state: present
+    when: ansible_distribution ==  "Ubuntu"
+  
+  handlers:
+  - name: restart httpd 
+    service:
+      name: httpd
+      state: restarted
+    when: ansible_distribution == "CentOS" or ansible_distribution == "Amazon"
+
+ 
+  - name: restart apache2
+    service:
+      name: apache2
+      state: restarted
+    when: ansible_distribution ==  "Ubuntu"
+
+
+...

@@ -1,0 +1,24 @@
+---
+
+- name: Update group1 server
+  hosts: group1
+  tasks:
+  - name: create a my_dir directory
+    file:
+      path: /home/centos/my_dir
+      state: directory
+    when: ansible_distribution == "CentOS" 
+
+  - name: create a my_dir directory
+    file:
+      path: /home/ubuntu/my_dir
+      state: directory
+    when: ansible_distribution == "Ubuntu"
+
+
+
+
+
+
+
+...

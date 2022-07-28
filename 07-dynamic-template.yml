@@ -1,0 +1,22 @@
+---
+- name: Update all server
+  hosts: all
+  become: yes
+  vars:
+    user_name: developer  
+  tasks:
+  - name: update the webpage
+    template:
+      src: dynamic.j2
+      dest: /var/www/html/dynamic.html
+    when: ansible_distribution == "CentOS" or ansible_distribution == "Amazon" 
+
+  - name: update the webpage
+    template:
+      src: dynamic.j2
+      dest: /var/www/html/dynamic.html
+    when: ansible_distribution ==  "Ubuntu"
+
+
+
+...

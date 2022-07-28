@@ -1,0 +1,34 @@
+---
+- name: Update all server
+  hosts: group13
+  become: yes
+  tasks:
+  - name: install git
+    yum:
+      name: git
+      state: present
+    when: ansible_distribution == "CentOS" or ansible_distribution == "Amazon" 
+
+  - name: deploy site
+    git:
+      repo: https://github.com/ravi2krishna/ecomm.git 
+      dest: /var/www/html
+    when: ansible_distribution == "CentOS" or ansible_distribution == "Amazon"
+
+
+
+  - name: install git
+    apt:
+      name: git
+      state: present
+    when: ansible_distribution ==  "Ubuntu"
+
+  - name: deploy site
+    git:
+      repo: https://github.com/ravi2krishna/ecomm.git
+      dest: /var/www/html
+    when: ansible_distribution ==  "Ubuntu"
+
+
+
+...
